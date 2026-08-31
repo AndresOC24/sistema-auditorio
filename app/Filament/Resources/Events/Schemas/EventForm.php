@@ -185,8 +185,9 @@ class EventForm
     private static function recentTitles(): array
     {
         return Event::query()
-            ->distinct()
-            ->orderByDesc('started_at')
+            ->select('title')
+            ->groupBy('title')
+            ->orderByRaw('MAX(started_at) DESC')
             ->limit(50)
             ->pluck('title')
             ->all();
